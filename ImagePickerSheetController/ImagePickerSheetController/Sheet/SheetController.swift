@@ -204,6 +204,7 @@ extension SheetController: UICollectionViewDataSource {
             let actionCell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(SheetActionCollectionViewCell.self), for: indexPath) as! SheetActionCollectionViewCell
             actionCell.textLabel.font = fontForAction(action)
             actionCell.textLabel.text = numberOfSelectedAssets > 0 ? action.secondaryTitle(numberOfSelectedAssets) : action.title
+            actionCell.accessibilityIdentifier = action.accessibilityIdentifier
             
             cell = actionCell
         }

@@ -28,6 +28,8 @@ open class ImagePickerAction {
     /// The style of the action. This is used to call a cancel handler when dismissing the controller by tapping the background.
     public let style: ImagePickerActionStyle
     
+    public let accessibilityIdentifier: String?
+    
     fileprivate let handler: Handler?
     fileprivate let secondaryHandler: SecondaryHandler?
     
@@ -38,22 +40,23 @@ open class ImagePickerAction {
         self.style = .cancel
         self.handler = nil
         self.secondaryHandler = nil
+        self.accessibilityIdentifier = "cancel.title"
     }
     
     /// Initializes a new ImagePickerAction. The secondary title and handler are used when at least 1 image has been selected.
     /// Secondary title defaults to title if not specified.
     /// Secondary handler defaults to handler if not specified.
-    public convenience init(title: String, secondaryTitle rawSecondaryTitle: String? = nil, style: ImagePickerActionStyle = .default, handler: @escaping Handler, secondaryHandler: SecondaryHandler? = nil) {
+    public convenience init(title: String, secondaryTitle rawSecondaryTitle: String? = nil, style: ImagePickerActionStyle = .default, handler: @escaping Handler, secondaryHandler: SecondaryHandler? = nil, accessibilityIdentifier: String? = nil) {
         let secondaryTitle: Title? = rawSecondaryTitle.map { string in
             return { _ in string }
         }
-        self.init(title: title, secondaryTitle: secondaryTitle, style: style, handler: handler, secondaryHandler: secondaryHandler)
+        self.init(title: title, secondaryTitle: secondaryTitle, style: style, handler: handler, secondaryHandler: secondaryHandler, accessibilityIdentifier: accessibilityIdentifier)
     }
     
     /// Initializes a new ImagePickerAction. The secondary title and handler are used when at least 1 image has been selected.
     /// Secondary title defaults to title if not specified. Use the closure to format a title according to the selection.
     /// Secondary handler defaults to handler if not specified
-    public init(title: String, secondaryTitle: Title?, style: ImagePickerActionStyle = .default, handler: @escaping Handler, secondaryHandler secondaryHandlerOrNil: SecondaryHandler? = nil) {
+    public init(title: String, secondaryTitle: Title?, style: ImagePickerActionStyle = .default, handler: @escaping Handler, secondaryHandler secondaryHandlerOrNil: SecondaryHandler? = nil, accessibilityIdentifier: String? = nil) {
         var secondaryHandler = secondaryHandlerOrNil
         if secondaryHandler == nil {
             secondaryHandler = { action, _ in
@@ -66,6 +69,7 @@ open class ImagePickerAction {
         self.style = style
         self.handler = handler
         self.secondaryHandler = secondaryHandler
+        self.accessibilityIdentifier = accessibilityIdentifier
     }
     
     func handle(_ numberOfImages: Int = 0) {
